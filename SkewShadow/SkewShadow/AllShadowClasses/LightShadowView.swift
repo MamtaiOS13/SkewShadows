@@ -38,7 +38,14 @@ class BlurLightView: UIView {
 }
 
 extension UIView {
-  
+    func pressedShadow() {
+        self.layer.shadowOffset = CGSize(width: -1, height: -1)
+        self.layer.sublayers?[0].shadowOffset = CGSize(width: 1, height: 1)
+    }
+    func unPressedShadow() {
+        self.layer.shadowOffset = CGSize(width: 5, height: 5)
+        self.layer.sublayers?[0].shadowOffset = CGSize(width: -5, height: -5)
+    }
     func addSoftUIEffectForView(cornerRadius: CGFloat = 6.0,
                                 themeColor: UIColor = UIColor(red: 245/255, green: 245/255,
                                                               blue: 245/255, alpha: 1.0)) {
@@ -63,6 +70,24 @@ extension UIView {
         shadowLayer.shadowOpacity = 1.0
         shadowLayer.shadowRadius = 6
         self.layer.insertSublayer(shadowLayer, at: 0)
+        let selectLayer = CAShapeLayer()
+             selectLayer.frame = bounds
+             selectLayer.backgroundColor =  UIColor(red: 0/255,
+                    green: 0/255,
+                    blue: 0/255,
+                    alpha: 0.04).cgColor
+             selectLayer.shadowColor = UIColor(red: 0/255,
+             green: 0/255,
+             blue: 0/255,
+             alpha: 0.04).cgColor
+             selectLayer.cornerRadius = cornerRadius
+             selectLayer.shadowOffset = CGSize(width: 0, height: 0)
+             selectLayer.shadowOpacity = 0.8
+             selectLayer.shadowRadius = 6
+
+           self.layer.insertSublayer(selectLayer, at: 1)
+
+             self.layer.sublayers?[1].isHidden = true
     }
 
     func removeShadow() {
